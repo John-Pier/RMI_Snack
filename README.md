@@ -1,2 +1,2 @@
-# RMI_Snack
-Snack App is developed with RMI
+# RMI_Snake
+Snake App is developed with RMI
