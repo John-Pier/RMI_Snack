@@ -1,6 +1,6 @@
 package johnpier;
 
-import johnpier.untils.SnackGameManager;
+import johnpier.untils.SnakeGameManager;
 
 import java.rmi.*;
 import java.rmi.registry.*;
@@ -12,7 +12,7 @@ public class ServerMain {
 
     public static void main(String[] args) {
         System.out.println("RMI Server starting...");
-        GameManager gameManager = new SnackGameManager();
+        GameManager gameManager = new SnakeGameManager();
         try {
             Registry registry = LocateRegistry.createRegistry(PORT);
             Remote stubObj = UnicastRemoteObject.exportObject(gameManager, 0);
