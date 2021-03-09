@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 
 public class SnakeGameManager implements GameManager {
     @Override
-    public void nextStep(StepParams params) {
+    public void nextStep(StepParams params) throws RemoteException {
         System.out.println("Worked!");
     }
 

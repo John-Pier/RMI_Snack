@@ -1,8 +1,8 @@
 package johnpier;
 
-import java.rmi.Remote;
+import java.rmi.*;
 import java.util.List;
 
 public interface AchievementsManager extends Remote {
-    List<Achievement> getAchievementsList();
+    List<Achievement> getAchievementsList() throws RemoteException;
 }
