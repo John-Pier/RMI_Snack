@@ -11,7 +11,7 @@ public class AppMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(
-              getClass().getResource("ui/views/spart-page.fxml")
+              getClass().getResource("ui/views/start-page.fxml")
         );
         primaryStage.setTitle("RMI Snake Client App");
         primaryStage.setScene(new Scene(root, 880, 640));

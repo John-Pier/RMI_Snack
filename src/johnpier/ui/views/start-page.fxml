@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.ui.controllers.StartPageController">
+    <AnchorPane prefHeight="299.0" prefWidth="417.0">
+        <VBox spacing="8.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="10.0">
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #8aa7ff" />
+            <Label alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="59.0" prefWidth="377.0" text="RMI Змейка" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
+                <font>
+                    <Font name="System Bold" size="40.0" />
+                </font>
+            </Label>
+            <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" minHeight="30.0" style="-fx-background-color: #ABFFD2" text="Начать игру" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
+            <Button alignment="CENTER" contentDisplay="CENTER" minHeight="30.0" style="-fx-background-color: #FBE79F" text="Достижения" textAlignment="CENTER" />
+            <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" style="-fx-background-color: #EDA3A3" text="Выход" textAlignment="CENTER" />
+        </VBox>
+    </AnchorPane>
+</Scene>
