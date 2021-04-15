@@ -8,7 +8,6 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="johnpier.ui.views.GamePage"
-            prefHeight="400.0" prefWidth="600.0">
-
+            fx:controller="johnpier.ui.controllers.GamePageController"
+            prefHeight="640.0" prefWidth="880.0">
 </AnchorPane>

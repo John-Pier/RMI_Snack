@@ -1,39 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.ui.controllers.StartPageController">
-    <AnchorPane prefHeight="299.0" prefWidth="417.0">
-        <VBox spacing="8.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="10.0">
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
-            <ImageView accessibleRole="BUTTON" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #8aa7ff">
-            <image>
-               <Image url="@../../../../resources/icons/help_24dp.png" />
-            </image>
-            <viewport>
-               <Rectangle2D height="24.0" width="24.0" />
-            </viewport>
-            <rotationAxis>
-               <Point3D />
-            </rotationAxis>
-            <VBox.margin>
-               <Insets top="10.0" />
-            </VBox.margin></ImageView>
-            <Label alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="59.0" prefWidth="377.0" text="RMI Змейка" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
-                <font>
-                    <Font name="System Bold" size="40.0" />
-                </font>
-            </Label>
-            <Button alignment="CENTER" contentDisplay="CENTER" defaultButton="true" minHeight="30.0" prefHeight="30.0" prefWidth="379.0" style="-fx-background-color: #ABFFD2" text="Начать игру" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
-            <Button alignment="CENTER" contentDisplay="CENTER" minHeight="30.0" prefHeight="30.0" prefWidth="388.0" style="-fx-background-color: #FBE79F" text="Достижения" textAlignment="CENTER" />
-            <Button alignment="CENTER" cancelButton="true" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" prefHeight="30.0" prefWidth="406.0" style="-fx-background-color: #EDA3A3" text="Выход" textAlignment="CENTER" />
-        </VBox>
-    </AnchorPane>
-</Scene>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="johnpier.AppMain">
+   <top>
+         <ImageView accessibleRole="BUTTON" fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: #8aa7ff" BorderPane.alignment="TOP_RIGHT">
+             <viewport>
+                 <Rectangle2D height="24.0" width="24.0" />
+             </viewport>
+             <Image url="@../../../../resources/icons/help_24dp.png" />
+         <BorderPane.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </BorderPane.margin>
+         </ImageView>
+   </top>
+   <center>
+      <Pane prefHeight="450.0" prefWidth="450.0" BorderPane.alignment="CENTER">
+         <children>
+               <Button fx:id="exitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" layoutX="35.0" layoutY="252.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" onAction="#onExitClick" prefHeight="30.0" prefWidth="382.0" style="-fx-background-color: #EDA3A3" text="Выход" textAlignment="CENTER" />
+               <Label alignment="TOP_CENTER" layoutX="37.0" layoutY="92.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="59.0" prefWidth="377.0" text="RMI Змейка" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
+                   <font>
+                       <Font name="System Bold" size="40.0" />
+                   </font>
+               </Label>
+               <Button fx:id="achievementButton" alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="210.0" minHeight="30.0" prefHeight="30.0" prefWidth="381.0" style="-fx-background-color: #FBE79F" text="Достижения" textAlignment="CENTER" />
+               <Button fx:id="startButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="36.0" layoutY="166.0" minHeight="30.0" prefHeight="30.0" prefWidth="379.0" style="-fx-background-color: #ABFFD2" text="Начать игру" textAlignment="CENTER" />
+         </children></Pane>
+   </center>
+</BorderPane>
