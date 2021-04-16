@@ -18,10 +18,10 @@ import johnpier.rmi.RMIClientManager;
 import johnpier.ui.controllers.SceneController;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
+import java.rmi.*;
 
 public class AppMain extends Application {
-    private final double animationSpeed = 1.1;
+    private final double animationSpeed = 1.9;
     private Direction direction = Direction.LEFT;
     private volatile Boolean isGameExit = false;
 
@@ -38,6 +38,8 @@ public class AppMain extends Application {
     private Parent achievementsView;
     private Parent gameView;
     private Parent helpView;
+    private Parent nameAndScoreView;
+    private Parent errorView;
 
     private AnimationTimer animationTimer;
 
@@ -57,6 +59,8 @@ public class AppMain extends Application {
         sceneController = new SceneController(this.primaryScene);
 
         this.loadStartView();
+        this.loadNameSetterView();
+        this.loadErrorView();
 
         sceneController.addScreen("startPageView", startPageView);
 
@@ -64,9 +68,9 @@ public class AppMain extends Application {
 
         setUpElements(startPageView);
 
-        initRMI();
-
         this.primaryStage.show();
+
+        initRMI();
     }
 
     public static void main(String[] args) {
@@ -74,8 +78,14 @@ public class AppMain extends Application {
     }
 
     public void initRMI() {
-        this.gameManager = RMIClientManager.getGameManager();
-        this.achievementsManager = RMIClientManager.getAchievementsManager();
+        try {
+            this.gameManager = RMIClientManager.getGameManager();
+            this.achievementsManager = RMIClientManager.getAchievementsManager();
+        } catch (NotBoundException | RemoteException e) {
+            e.printStackTrace();
+            this.openErrorPage(null);
+        }
+
     }
 
     private void setUpElements(Parent scene) {
@@ -100,6 +110,7 @@ public class AppMain extends Application {
             achievementsView = FXMLLoader.load(getClass().getResource("ui/views/achievement-page.fxml"));
             sceneController.addScreen("achievementsView", achievementsView);
         } catch (IOException e) {
+            this.openErrorPage(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -109,6 +120,7 @@ public class AppMain extends Application {
             helpView = FXMLLoader.load(getClass().getResource("ui/views/help-page.fxml"));
             sceneController.addScreen("helpView", helpView);
         } catch (IOException e) {
+            this.openErrorPage(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -118,6 +130,27 @@ public class AppMain extends Application {
             gameView = FXMLLoader.load(getClass().getResource("ui/views/game-page.fxml"));
             sceneController.addScreen("gameView", gameView);
         } catch (IOException e) {
+            this.openErrorPage(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void loadNameSetterView() {
+        try {
+            nameAndScoreView = FXMLLoader.load(getClass().getResource("ui/views/add-achievement-page.fxml"));
+            sceneController.addScreen("nameAndScoreView", nameAndScoreView);
+        } catch (IOException e) {
+            this.openErrorPage(e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void loadErrorView() {
+        try {
+            errorView = FXMLLoader.load(getClass().getResource("ui/views/error-page.fxml"));
+            sceneController.addScreen("errorView", errorView);
+        } catch (IOException e) {
+            this.openErrorPage(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -147,10 +180,10 @@ public class AppMain extends Application {
             graphicsContext2D.setFill(foodColor);
             graphicsContext2D.fillOval(foodCoordinate.getX() * 20, foodCoordinate.getY() * 20, 20, 20);
 
-            for (int i = 0; i < snake.size(); i ++) {
+            for (int i = 0; i < snake.size(); i++) {
                 Coordinate coordinate = snake.get(i);
                 graphicsContext2D.setFill(Color.web("5B5858"));
-                if (i == 0 ) {
+                if (i == 0) {
                     graphicsContext2D.fillRoundRect((coordinate.getX() * 20), coordinate.getY() * 20, 20 - 1, 20 - 1, 10, 10);
                     graphicsContext2D.setFill(Color.web("B57F4E"));
                     graphicsContext2D.fillRoundRect(coordinate.getX() * 20 - 1, coordinate.getY() * 20 - 1, 20 - 2, 20 - 2, 10, 10);
@@ -159,9 +192,10 @@ public class AppMain extends Application {
                     graphicsContext2D.setFill(Color.web("8C7259"));
                     graphicsContext2D.fillRoundRect(coordinate.getX() * 20 - 1, coordinate.getY() * 20 - 1, 20 - 2, 20 - 2, 5, 5);
                 }
-          }
+            }
 
         } catch (RemoteException e) {
+            this.openErrorPage(null);
             e.printStackTrace();
             this.animationTimer.stop();
         }
@@ -211,6 +245,7 @@ public class AppMain extends Application {
 
             } catch (RemoteException e) {
                 e.printStackTrace();
+                this.openErrorPage(null);
             }
         }
     }
@@ -227,10 +262,14 @@ public class AppMain extends Application {
             scoreLabel = (Label) this.gameView.lookup("#scoreLabel");
 
             finishGameButton.setOnAction(actionEvent -> {
+                if (isGameExit) {
+                    sceneController.activateScreen("startPageView");
+                }
                 isGameExit = true;
             });
 
             this.gameView.setOnKeyPressed(keyEvent -> this.onKeyPressed(keyEvent.getCode()));
+            this.gameView.setOnKeyReleased(keyEvent -> this.onKeyPressed(keyEvent.getCode()));
 
             try {
                 currentGameState = gameManager.startGame(new GameConfig());
@@ -267,6 +306,7 @@ public class AppMain extends Application {
                 animationTimer.start();
 
             } catch (RemoteException e) {
+                this.openErrorPage(null);
                 e.printStackTrace();
             }
         }
@@ -296,8 +336,28 @@ public class AppMain extends Application {
         }
     }
 
+    public void openErrorPage(String message) {
+        Stage errorWindow = new Stage();
+        errorWindow.setTitle("");
+        errorWindow.setScene(new Scene(this.errorView));
+        errorWindow.initModality(Modality.WINDOW_MODAL);
+        errorWindow.initOwner(primaryStage);
+
+        var backClick = (Button) this.errorView.lookup("#closeButton");
+        var label = (Label) this.errorView.lookup("#errorLabel");
+
+        if(message != null) {
+            label.setText(message);
+        }
+        backClick.setOnAction(e -> {
+            errorWindow.close();
+        });
+
+        errorWindow.show();
+    }
+
     public void onKeyPressed(KeyCode keyCode) {
-        if (keyCode == KeyCode.W || keyCode == KeyCode.UP) {
+        if (keyCode == KeyCode.W || keyCode == KeyCode.KP_UP) {
             direction = Direction.UP;
         } else if (keyCode == KeyCode.A || keyCode == KeyCode.LEFT) {
             direction = Direction.LEFT;
@@ -314,16 +374,35 @@ public class AppMain extends Application {
         isGameExit = false;
         System.out.println("gameOver");
         if (currentGameState.getScore() != 0) {
-            var achievement = new Achievement("No name", currentGameState.getScore());
-            // спросить имя
-            try {
-                this.achievementsManager.saveAchievement(achievement);
-                System.out.println("Achievement saved");
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+            var achievement = new Achievement(currentGameState.getScore());
+            Stage getNameWindow = new Stage();
+            getNameWindow.setTitle("Счет: " + achievement.getScore());
+            getNameWindow.setScene(new Scene(this.nameAndScoreView));
 
-            openAchievements();
+            getNameWindow.initModality(Modality.APPLICATION_MODAL);
+            getNameWindow.initOwner(primaryStage);
+
+            getNameWindow.show();
+
+            var backClick = (Button) this.nameAndScoreView.lookup("#okButton");
+            var textField = (TextField) this.nameAndScoreView.lookup("#nameField");
+
+            textField.setText(achievement.getPlayerName());
+
+            if (backClick == null || textField == null) return;
+
+            backClick.setOnAction(e -> {
+                achievement.setPlayerName(textField.getText());
+                try {
+                    this.achievementsManager.saveAchievement(achievement);
+                    System.out.println("Achievement saved");
+                } catch (RemoteException exception) {
+                    exception.printStackTrace();
+                    this.openErrorPage(exception.getMessage());
+                }
+                getNameWindow.close();
+                openAchievements();
+            });
         } else {
             sceneController.activateScreen("startPageView");
         }
