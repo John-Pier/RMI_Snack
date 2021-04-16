@@ -1,5 +1,7 @@
 package johnpier;
 
-public interface AchievementsSetter {
-    void setNewAchievements(int score, String time);
+import java.rmi.*;
+
+public interface AchievementsSetter extends Remote {
+    void setNewAchievements(int score, String time) throws RemoteException;
 }
