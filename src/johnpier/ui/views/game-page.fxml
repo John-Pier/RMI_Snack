@@ -1,43 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="640.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.ui.controllers.GamePageController">
-   <children>
-      <BorderPane prefHeight="420.0" prefWidth="564.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
-         <bottom>
-            <Button fx:id="finishGameButton" defaultButton="true" mnemonicParsing="false" text="Завершить игру" textAlignment="CENTER" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </BorderPane.margin></Button>
-         </bottom>
-         <top>
-            <Label fx:id="scoreLabel" contentDisplay="CENTER" text="0" textFill="#7c4c15" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="20.0" top="10.0" />
-               </BorderPane.margin>
-               <font>
-                  <Font size="30.0" />
-               </font>
-            </Label>
-         </top>
-         <center>
-            <Pane fx:id="gamePanel" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </BorderPane.margin>
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-                <children>
-                    <Canvas fx:id="canvas" height="300.0" width="400.0" />
-                </children>
-            </Pane>
-         </center>
-      </BorderPane>
-   </children>
+<AnchorPane prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.ui.controllers.GamePageController">
+    <children>
+        <BorderPane AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <bottom>
+                <Button fx:id="finishGameButton" defaultButton="true" mnemonicParsing="false" text="Завершить игру" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </BorderPane.margin>
+                </Button>
+            </bottom>
+            <top>
+                <Label fx:id="scoreLabel" contentDisplay="CENTER" text="0" textFill="#7c4c15" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="20.0" top="10.0" />
+                    </BorderPane.margin>
+                    <font>
+                        <Font size="30.0" />
+                    </font>
+                </Label>
+            </top>
+            <center>
+                <Pane fx:id="gamePanel" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </BorderPane.margin>
+                    <padding>
+                        <Insets left="10.0" right="10.0" />
+                    </padding>
+                    <children>
+                        <Canvas fx:id="gameCanvas" height="300.0" layoutX="45.0" layoutY="137.0" style="-fx-border-radius: 2px; -fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: #D4D4D4;" width="400.0">
+                     <cursor>
+                        <Cursor fx:constant="NONE" />
+                     </cursor>
+                     <effect>
+                        <DropShadow height="6.7" radius="3.4450000000000003" width="9.08">
+                           <color>
+                              <Color red="0.6973684430122375" green="0.6573343276977539" blue="0.6573343276977539" />
+                           </color>
+                        </DropShadow>
+                     </effect></Canvas>
+                    </children>
+                </Pane>
+            </center>
+        </BorderPane>
+    </children>
 </AnchorPane>

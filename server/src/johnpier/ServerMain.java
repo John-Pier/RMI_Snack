@@ -9,7 +9,6 @@ import java.rmi.server.UnicastRemoteObject;
 public class ServerMain {
     public static final String GAME_MANAGER_PATH_NAME = "com.johnpier.server.GameManager";
     public static final String ACHIEVEMENTS_MANAGER_PATH_NAME = "com.johnpier.server.AchievementsManager";
-//    public static final String ACHIEVEMENTS_SETTER_PATH_NAME = "com.johnpier.server.AchievementsSetter";
     public static final int PORT = 1099;
 
     public static void main(String[] args) {
@@ -25,7 +24,7 @@ public class ServerMain {
 
             System.out.println("RMI Server for Snack App successfully started !");
         } catch (RemoteException | AlreadyBoundException e) {
-            System.err.println("RMI Server exception: " + e.toString());
+            System.err.println("RMI Server exception: " + e);
             e.printStackTrace();
         }
     }

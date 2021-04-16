@@ -13,8 +13,8 @@ public class SnakeGameManager implements GameManager {
     @Override
     public GameState startGame(GameConfig initialConfig) throws RemoteException {
         gameStarted = true;
-        GameState gameState = new GameState(initialConfig.gridWidth, initialConfig.gridHeight);
-        gameState.setFood(getFood(gameState.getSnake(), gameState.getFieldWidth(), gameState.getFieldHeight()));
+        GameState gameState = new GameState(initialConfig.gridWidth, initialConfig.gridHeight, initialConfig.speed);
+        // gameState.setFood(getFood(gameState.getSnake(), gameState.getFieldWidth(), gameState.getFieldHeight()));
         this.currentState = gameState;
 
         return this.currentState;
@@ -27,56 +27,75 @@ public class SnakeGameManager implements GameManager {
             currentState.getSnake().get(i).setY(currentState.getSnake().get(i - 1).getY());
         }
         int y, x;
-        y = currentState.getSnake().get(0).getY();
-        x = currentState.getSnake().get(0).getX();
+        var snakeHeadCoordinate = currentState.getSnake().get(0);
+        y = snakeHeadCoordinate.getY();
+        x = snakeHeadCoordinate.getX();
 
         switch (params.nextDirection) {
             case UP -> {
                 y--;
-                currentState.getSnake().get(0).setY(y);
-                if (currentState.getSnake().get(0).getY() < 0) {
+                snakeHeadCoordinate.setY(y);
+                if (snakeHeadCoordinate.getY() < 0) {
                     currentState.setGameOver(true); //or set y = fieldHeight
                 }
             }
             case DOWN -> {
                 y++;
-                currentState.getSnake().get(0).setY(y);
-                if (currentState.getSnake().get(0).getY() > currentState.getFieldHeight()) {
+                snakeHeadCoordinate.setY(y);
+                if (snakeHeadCoordinate.getY() > currentState.getFieldHeight()) {
                     currentState.setGameOver(true); //or set y = 0
                 }
             }
             case LEFT -> {
                 x--;
-                currentState.getSnake().get(0).setX(x);
-                if (currentState.getSnake().get(0).getX() < 0) {
+                snakeHeadCoordinate.setX(x);
+                if (snakeHeadCoordinate.getX() < 0) {
                     currentState.setGameOver(true); //or set x = fieldWidth;
                 }
             }
             case RIGHT -> {
                 x++;
-                currentState.getSnake().get(0).setX(x);
-                if (currentState.getSnake().get(0).getX() > currentState.getFieldWidth()) {
+                snakeHeadCoordinate.setX(x);
+                if (snakeHeadCoordinate.getX() > currentState.getFieldWidth()) {
                     currentState.setGameOver(true);  //or set x = 0;
                 }
             }
         }
 
-        // eat food
-        if (currentState.getFood().getX() == currentState.getSnake().get(0).getX()
-                && currentState.getFood().getY() == currentState.getSnake().get(0).getY()) {
 
-            var newSnake = currentState.getSnake();
-            newSnake.add(new Coordinate(-1, -1));
+        if (currentState.getFood().getX() == currentState.getSnake().get(0).getX() &&
+                currentState.getFood().getY() == currentState.getSnake().get(0).getY()) {
+
+            ArrayList<Coordinate> newSnake =  currentState.getSnake();
+            int blockX = newSnake.get(newSnake.size() -1).getX();
+            int blockY = newSnake.get(newSnake.size() -1).getY();
+
+            switch (currentState.getDirection()) {
+                case UP -> blockY--;
+                case DOWN -> blockY++;
+                case LEFT -> blockX--;
+                case RIGHT -> blockX++;
+            }
+            newSnake.add(new Coordinate(blockX, blockY));
             currentState.setSnake(newSnake);
             currentState.setFood(getFood(currentState.getSnake(), currentState.getFieldWidth(), currentState.getFieldHeight()));
             currentState.setScore(currentState.getScore() + 1);
-           // currentState.setSpeed(currentState.getSpeed() + currentState.getLvl());
         }
+//        // eat food
+//        if (currentState.getFood().getX() == snakeHeadCoordinate.getX()
+//                && currentState.getFood().getY() == snakeHeadCoordinate.getY()) {
+//
+//            var newSnake = currentState.getSnake();
+//            newSnake.add(new Coordinate(-1, -1));
+//            currentState.setSnake(newSnake);
+//            currentState.setFood(getFood(currentState.getSnake(), currentState.getFieldWidth(), currentState.getFieldHeight()));
+//            currentState.setScore(currentState.getScore() + 1);
+//        }
 
         // self destroy
         for (int i = 1; i < currentState.getSnake().size(); i++) {
-            if (currentState.getSnake().get(0).getX() == currentState.getSnake().get(i).getX()
-                    && currentState.getSnake().get(0).getY() == currentState.getSnake().get(i).getY()) {
+            if (snakeHeadCoordinate.getX() == currentState.getSnake().get(i).getX()
+                    && snakeHeadCoordinate.getY() == currentState.getSnake().get(i).getY()) {
                 currentState.setGameOver(true);
             }
         }

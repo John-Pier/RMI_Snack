@@ -17,7 +17,11 @@
                                 <Font size="30.0" />
                             </font>
                         </Label>
-                        <ListView layoutX="47.0" layoutY="127.0" prefHeight="260.0" prefWidth="480.0" />
+                  <TableView fx:id="tableView" layoutX="67.0" layoutY="143.0" prefHeight="200.0" prefWidth="440.0">
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
                     </children>
                 </AnchorPane>
             </content>

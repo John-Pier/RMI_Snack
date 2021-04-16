@@ -2,6 +2,7 @@ package johnpier.untils;
 
 import johnpier.*;
 
+import java.io.*;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -11,11 +12,12 @@ public class SnakeAchievementsManager implements AchievementsManager {
 
     @Override
     public List<Achievement> getAchievementsList() throws RemoteException {
-        return new ArrayList<>();
+//        return achievementsList.sort((a,b) -> a.score ==);
+        return achievementsList;
     }
 
     @Override
-    public void setNewAchievements(int score, String time) {
-        this.achievementsList.add(new Achievement());
+    public void saveAchievement(Achievement achievement) throws RemoteException {
+        this.achievementsList.add(achievement);
     }
 }

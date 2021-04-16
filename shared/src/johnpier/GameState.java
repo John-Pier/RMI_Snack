@@ -9,21 +9,20 @@ public class GameState implements Serializable {
     private Direction direction;
     private int fieldWidth;
     private int fieldHeight;
-    private boolean isGameOver;
-    private int score;
-    private int lvl;
+    private boolean isGameOver = false;
+    private int score = 0;
     private int speed;
 
-    public GameState(int fieldWidth, int fieldHeight) {
+    public GameState(int fieldWidth, int fieldHeight, int speed) {
         this.direction = Direction.LEFT;
-        this.food = new Coordinate(1, 1);
+        var firstX = fieldWidth / 2;
+        var firstY = fieldHeight / 2;
+
+        this.food = new Coordinate(firstX - 2, firstY - 1);
         this.snake = new ArrayList<>();
-        this.snake.add(new Coordinate(10, 10));
-        this.snake.add(new Coordinate(9, 10));
-        this.snake.add(new Coordinate(8,10));
-        this.score = 0;
-        this.speed = 5;
-        this.isGameOver = false;
+        this.snake.add(new Coordinate(firstX, firstY));
+        this.snake.add(new Coordinate(firstY - 1, firstY));
+        this.speed = speed;
         this.fieldWidth = fieldWidth;
         this.fieldHeight = fieldHeight;
     }
