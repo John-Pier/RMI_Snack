@@ -129,7 +129,7 @@ public class AppMain extends Application {
         try {
             currentGameState = gameManager.nextStep(params);
             scoreLabel.setText(String.valueOf(currentGameState.getScore()));
-            System.out.println(currentGameState + ": " + currentGameState.isGameOver() + currentGameState.getScore());
+            System.out.println(currentGameState + ": " + currentGameState.isGameOver() + ": " + currentGameState.getScore());
 
             if (currentGameState.isGameOver()) {
                 isGameExit = true;
@@ -147,12 +147,19 @@ public class AppMain extends Application {
             graphicsContext2D.setFill(foodColor);
             graphicsContext2D.fillOval(foodCoordinate.getX() * 20, foodCoordinate.getY() * 20, 20, 20);
 
-            for (Coordinate coordinate : snake) {
+            for (int i = 0; i < snake.size(); i ++) {
+                Coordinate coordinate = snake.get(i);
                 graphicsContext2D.setFill(Color.web("5B5858"));
-                graphicsContext2D.fillRect(coordinate.getX() * 20, coordinate.getY() * 20, 20 - 1, 20 - 1);
-                graphicsContext2D.setFill(Color.web("8C7259"));
-                graphicsContext2D.fillRect(coordinate.getX() * 20, coordinate.getY() * 20, 20 - 2, 20 - 2);
-            }
+                if (i == 0 ) {
+                    graphicsContext2D.fillRoundRect((coordinate.getX() * 20), coordinate.getY() * 20, 20 - 1, 20 - 1, 10, 10);
+                    graphicsContext2D.setFill(Color.web("B57F4E"));
+                    graphicsContext2D.fillRoundRect(coordinate.getX() * 20 - 1, coordinate.getY() * 20 - 1, 20 - 2, 20 - 2, 10, 10);
+                } else {
+                    graphicsContext2D.fillRoundRect((coordinate.getX() * 20), coordinate.getY() * 20, 20 - 1, 20 - 1, 5, 5);
+                    graphicsContext2D.setFill(Color.web("8C7259"));
+                    graphicsContext2D.fillRoundRect(coordinate.getX() * 20 - 1, coordinate.getY() * 20 - 1, 20 - 2, 20 - 2, 5, 5);
+                }
+          }
 
         } catch (RemoteException e) {
             e.printStackTrace();
