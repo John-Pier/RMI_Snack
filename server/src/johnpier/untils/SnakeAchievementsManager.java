@@ -5,7 +5,7 @@ import johnpier.*;
 import java.rmi.RemoteException;
 import java.util.*;
 
-public class SnakeAchievementsManager implements AchievementsManager, AchievementsSetter {
+public class SnakeAchievementsManager implements AchievementsManager {
 
     public List<Achievement> achievementsList = new ArrayList<>();
 

@@ -1,13 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="johnpier.ui.controllers.AchievementPageController"
-            prefHeight="400.0" prefWidth="600.0">
-</AnchorPane>
+<BorderPane prefHeight="480.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.AppMain">
+    <center>
+        <ScrollPane BorderPane.alignment="CENTER">
+            <content>
+                <AnchorPane prefHeight="454.0" prefWidth="574.0">
+                    <children>
+                        <Button fx:id="backButton" cancelButton="true" defaultButton="true" layoutX="456.0" layoutY="403.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Закрыть" textAlignment="CENTER" AnchorPane.bottomAnchor="25.799999999999955" AnchorPane.rightAnchor="48.0" />
+                        <Label layoutX="201.0" layoutY="49.0" text="Достижения">
+                            <font>
+                                <Font size="30.0" />
+                            </font>
+                        </Label>
+                        <ListView layoutX="47.0" layoutY="127.0" prefHeight="260.0" prefWidth="480.0" />
+                    </children>
+                </AnchorPane>
+            </content>
+            <padding>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            </padding>
+        </ScrollPane>
+    </center>
+</BorderPane>

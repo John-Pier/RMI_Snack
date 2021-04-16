@@ -5,6 +5,8 @@ import johnpier.*;
 import java.rmi.RemoteException;
 
 public class SnakeGameManager implements GameManager {
+    public Boolean gameStarted = false;
+
     @Override
     public void nextStep(StepParams params) throws RemoteException {
         System.out.println("Worked!");
@@ -12,6 +14,7 @@ public class SnakeGameManager implements GameManager {
 
     @Override
     public GameConfig startGame() throws RemoteException {
+        this.gameStarted = true;
         return null;
     }
 }

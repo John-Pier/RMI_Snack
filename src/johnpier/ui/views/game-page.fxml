@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="johnpier.ui.controllers.GamePageController"
-            prefHeight="640.0" prefWidth="880.0">
+<AnchorPane prefHeight="640.0" prefWidth="880.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.ui.controllers.GamePageController">
+   <children>
+      <BorderPane prefHeight="420.0" prefWidth="564.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <bottom>
+            <Button defaultButton="true" mnemonicParsing="false" text="Завершить игру" textAlignment="CENTER" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin></Button>
+         </bottom>
+         <top>
+            <Label contentDisplay="CENTER" text="0" textFill="#7c4c15" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="20.0" top="10.0" />
+               </BorderPane.margin>
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <Pane BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+                <children>
+                    <Canvas fx:id="canvas" height="300.0" width="400.0" />
+                </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
 </AnchorPane>
