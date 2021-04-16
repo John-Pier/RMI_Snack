@@ -5,8 +5,9 @@ import javafx.application.Application;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.*;
 import johnpier.rmi.RMIClientManager;
@@ -15,14 +16,14 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 public class AppMain extends Application {
+    private Timeline timeline = new Timeline();
+    private double speed = 0.3;
+    private Direction direction = Direction.LEFT;
 
     public GameManager gameManager;
     public AchievementsManager achievementsManager;
 
     public SceneController sceneController;
-
-    private Timeline timeline = new Timeline();
-    private static double speed = 0.3;
 
     public Stage primaryStage;
     public Scene primaryScene;
@@ -151,9 +152,25 @@ public class AppMain extends Application {
         if (this.gameView != null && this.primaryStage != null) {
             sceneController.activateScreen("gameView");
 
+            Button finishGameButton = (Button) this.gameView.lookup("#finishGameButton");
+            Label scoreLabel = (Label) this.gameView.lookup("#scoreLabel");
+
+            finishGameButton.setOnAction(actionEvent -> {
+                // stop game
+                System.out.println("stop game: " + actionEvent);
+            });
+
+            this.gameView.setOnKeyPressed(keyEvent -> this.onKeyPressed(keyEvent.getCode()));
+
             try {
-                GameConfig gameConfig = gameManager.startGame();
-                System.out.println("test");
+                GameState gameState = gameManager.startGame(new GameConfig());
+                scoreLabel.setText(String.valueOf(gameState.getScore()));
+
+                // in timer
+                var params = new StepParams();
+                params.nextDirection = direction;
+                scoreLabel.setText(String.valueOf(gameState.getScore()));
+                System.out.println(gameManager.nextStep(params));
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -182,5 +199,19 @@ public class AppMain extends Application {
             backClick.setCancelButton(true);
             backClick.setOnAction(e -> helpWindow.close());
         }
+    }
+
+    public void onKeyPressed(KeyCode keyCode) {
+        if (keyCode == KeyCode.W) {
+            direction = Direction.UP;
+        } else if (keyCode == KeyCode.A) {
+            direction = Direction.LEFT;
+        } else if (keyCode == KeyCode.S) {
+            direction = Direction.DOWN;
+        } else if (keyCode == KeyCode.D) {
+            direction = Direction.RIGHT;
+        }
+
+        System.out.println("Direction: " + direction);
     }
 }

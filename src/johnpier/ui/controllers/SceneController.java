@@ -25,4 +25,8 @@ public class SceneController {
     public void activateScreen(String name) {
         mainScene.setRoot(screenMap.get(name));
     }
+
+    public Parent getScreen(String name) {
+        return screenMap.get(name);
+    }
 }

@@ -3,6 +3,6 @@ package johnpier;
 import java.rmi.*;
 
 public interface GameManager extends Remote {
-    void nextStep(StepParams params) throws RemoteException;
-    GameConfig startGame() throws RemoteException;
+    GameState nextStep(StepParams params) throws RemoteException;
+    GameState startGame(GameConfig initialConfig) throws RemoteException;
 }
