@@ -290,13 +290,13 @@ public class AppMain extends Application {
     }
 
     public void onKeyPressed(KeyCode keyCode) {
-        if (keyCode == KeyCode.W) {
+        if (keyCode == KeyCode.W || keyCode == KeyCode.UP) {
             direction = Direction.UP;
-        } else if (keyCode == KeyCode.A) {
+        } else if (keyCode == KeyCode.A || keyCode == KeyCode.LEFT) {
             direction = Direction.LEFT;
-        } else if (keyCode == KeyCode.S) {
+        } else if (keyCode == KeyCode.S || keyCode == KeyCode.DOWN) {
             direction = Direction.DOWN;
-        } else if (keyCode == KeyCode.D) {
+        } else if (keyCode == KeyCode.D || keyCode == KeyCode.RIGHT) {
             direction = Direction.RIGHT;
         }
 
