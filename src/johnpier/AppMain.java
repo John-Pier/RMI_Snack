@@ -13,18 +13,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.stage.*;
 import johnpier.rmi.RMIClientManager;
 import johnpier.ui.controllers.SceneController;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.*;
 
 public class AppMain extends Application {
     private final double animationSpeed = 1.1;
     private Direction direction = Direction.LEFT;
-    private Boolean isGameExit = false;
+    private volatile Boolean isGameExit = false;
 
     public GameManager gameManager;
     public AchievementsManager achievementsManager;
@@ -133,9 +132,7 @@ public class AppMain extends Application {
             System.out.println(currentGameState + ": " + currentGameState.isGameOver() + currentGameState.getScore());
 
             if (currentGameState.isGameOver()) {
-                graphicsContext2D.setFill(Color.RED);
-                graphicsContext2D.setFont(new Font("", 50));
-                graphicsContext2D.fillText("Игра завершена!", 100, 250);
+                isGameExit = true;
                 return;
             }
 
@@ -188,7 +185,8 @@ public class AppMain extends Application {
             });
 
             try {
-                var list =   FXCollections.observableArrayList(achievementsManager.getAchievementsList());
+                System.out.println("AchievementsList - " + achievementsManager.getAchievementsList().size());
+                var list = FXCollections.observableArrayList(achievementsManager.getAchievementsList());
                 TableView<Achievement> tableView = new TableView<>();
 
                 TableColumn<Achievement, String> name = new TableColumn<>("Игрок");
@@ -218,13 +216,11 @@ public class AppMain extends Application {
             sceneController.activateScreen("gameView");
 
             var finishGameButton = (Button) this.gameView.lookup("#finishGameButton");
-            scoreLabel = (Label) this.gameView.lookup("#scoreLabel");
             var gameGridCanvas = (Canvas) this.gameView.lookup("#gameCanvas");
+            scoreLabel = (Label) this.gameView.lookup("#scoreLabel");
 
             finishGameButton.setOnAction(actionEvent -> {
-                // stop game
                 isGameExit = true;
-                System.out.println("stop game: " + actionEvent);
             });
 
             this.gameView.setOnKeyPressed(keyEvent -> this.onKeyPressed(keyEvent.getCode()));
@@ -238,7 +234,7 @@ public class AppMain extends Application {
 
                 GraphicsContext graphicsContext2D = gameGridCanvas.getGraphicsContext2D();
 
-                animationTimer  = new AnimationTimer() {
+                animationTimer = new AnimationTimer() {
                     long lastTick = 0;
                     final long second = 1_000_000_000;
 
@@ -309,6 +305,20 @@ public class AppMain extends Application {
 
     private void gameOver() {
         isGameExit = false;
-        sceneController.activateScreen("achievementsView");
+        System.out.println("gameOver");
+        if (currentGameState.getScore() != 0) {
+            var achievement = new Achievement("No name", currentGameState.getScore());
+            // спросить имя
+            try {
+                this.achievementsManager.saveAchievement(achievement);
+                System.out.println("Achievement saved");
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+
+            openAchievements();
+        } else {
+            sceneController.activateScreen("startPageView");
+        }
     }
 }

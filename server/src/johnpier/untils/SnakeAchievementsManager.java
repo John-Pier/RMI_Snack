@@ -16,6 +16,6 @@ public class SnakeAchievementsManager implements AchievementsManager {
     @Override
     public void saveAchievement(Achievement achievement) throws RemoteException {
         this.achievementsList.add(achievement);
-        achievementsList.sort(Comparator.comparingInt(o -> o.score));
+        achievementsList.sort(Comparator.comparingInt(o -> o.getScore()));
     }
 }
