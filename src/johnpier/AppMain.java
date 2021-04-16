@@ -2,6 +2,7 @@ package johnpier;
 
 import javafx.animation.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -23,6 +24,7 @@ import java.util.*;
 public class AppMain extends Application {
     private final double animationSpeed = 1.1;
     private Direction direction = Direction.LEFT;
+    private Boolean isGameExit = false;
 
     public GameManager gameManager;
     public AchievementsManager achievementsManager;
@@ -124,6 +126,7 @@ public class AppMain extends Application {
     public void gameTick(GraphicsContext graphicsContext2D) {
         var params = new StepParams();
         params.nextDirection = direction;
+        params.isExit = isGameExit;
         try {
             currentGameState = gameManager.nextStep(params);
             scoreLabel.setText(String.valueOf(currentGameState.getScore()));
@@ -176,18 +179,17 @@ public class AppMain extends Application {
             sceneController.activateScreen("achievementsView");
 
             var backButton = (Button) this.achievementsView.lookup("#backButton");
-            var tableView = (TableView) this.achievementsView.lookup("#tableView");
+            var borderPane = (BorderPane) this.achievementsView.lookup("#borderPane");
 
             if (backButton == null) return;
 
             backButton.setOnAction(e -> {
                 sceneController.activateScreen("startPageView");
-//                this.primaryScene.setRoot(startPageView);
-//               this.primaryStage.setScene(primaryScene);
             });
 
             try {
-                var list =  achievementsManager.getAchievementsList();
+                var list =   FXCollections.observableArrayList(achievementsManager.getAchievementsList());
+                TableView<Achievement> tableView = new TableView<>();
 
                 TableColumn<Achievement, String> name = new TableColumn<>("Игрок");
                 name.setMinWidth(75);
@@ -197,23 +199,11 @@ public class AppMain extends Application {
                 score.setMinWidth(75);
                 score.setCellValueFactory(new PropertyValueFactory<>("score"));
 
-//                // Sorting the players score list using collections sort and comaparator
-//                Collections.sort((List) player, new Comparator<Player>() {
-//                    public int compare(Player c1, Player c2) {
-//                        if (c1.getScore() > c2.getScore())
-//                            return -1;
-//                        if (c1.getScore() < c2.getScore())
-//                            return 1;
-//                        return 0;
-//                    }
-//                });
-//
-//                table.setItems(player); // setting the items in the table
-//                table.getColumns().addAll(name, score);
+                tableView.setItems(list);
+                tableView.getColumns().addAll(name, score);
 
+                borderPane.setCenter(tableView);
 
-//                tableView.getColumns().stream().forEach(item -> {item.});
-//                tableView.setItems(new ObservableList list);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -233,7 +223,7 @@ public class AppMain extends Application {
 
             finishGameButton.setOnAction(actionEvent -> {
                 // stop game
-                animationTimer.stop();
+                isGameExit = true;
                 System.out.println("stop game: " + actionEvent);
             });
 
@@ -262,6 +252,11 @@ public class AppMain extends Application {
                         if (now - lastTick > second / (currentGameState.getSpeed() * animationSpeed)) {
                             lastTick = now;
                             gameTick(graphicsContext2D);
+                        }
+
+                        if (isGameExit) {
+                            animationTimer.stop();
+                            gameOver();
                         }
                     }
                 };
@@ -310,5 +305,10 @@ public class AppMain extends Application {
         }
 
         System.out.println("Direction: " + direction);
+    }
+
+    private void gameOver() {
+        isGameExit = false;
+        sceneController.activateScreen("achievementsView");
     }
 }
