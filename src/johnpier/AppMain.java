@@ -34,6 +34,14 @@ public class AppMain extends Application {
     public Stage primaryStage;
     public Scene primaryScene;
 
+    public Scene errorScene;
+    public Scene nameSetterScene;
+    public Scene helpScene;
+
+    public Stage nameSetterWindow = new Stage();
+    public Stage errorWindow = new Stage();
+    public Stage helpWindow = new Stage();
+
     private Parent startPageView;
     private Parent achievementsView;
     private Parent gameView;
@@ -61,11 +69,13 @@ public class AppMain extends Application {
         this.loadStartView();
         this.loadNameSetterView();
         this.loadErrorView();
+        this.loadHelpView();
 
         sceneController.addScreen("startPageView", startPageView);
 
         sceneController.activateScreen("startPageView");
 
+        initPopovers();
         setUpElements(startPageView);
 
         this.primaryStage.show();
@@ -153,6 +163,26 @@ public class AppMain extends Application {
             this.openErrorPage(e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void initPopovers() {
+        this.errorScene = new Scene(this.errorView);
+        this.nameSetterScene = new Scene(this.nameAndScoreView);
+        this.helpScene = new Scene(this.helpView);
+
+        helpWindow.setTitle("Справка");
+        helpWindow.setScene(helpScene);
+        helpWindow.initModality(Modality.WINDOW_MODAL);
+        helpWindow.initOwner(primaryStage);
+
+        nameSetterWindow.setScene(nameSetterScene);
+        nameSetterWindow.initModality(Modality.APPLICATION_MODAL);
+        nameSetterWindow.initOwner(primaryStage);
+
+        errorWindow.setTitle("");
+        errorWindow.setScene(errorScene);
+        errorWindow.initModality(Modality.WINDOW_MODAL);
+        errorWindow.initOwner(primaryStage);
     }
 
     public void gameTick(GraphicsContext graphicsContext2D) {
@@ -317,13 +347,7 @@ public class AppMain extends Application {
             this.loadHelpView();
         }
         if (this.helpView != null && this.primaryStage != null) {
-
-            Stage helpWindow = new Stage();
-            helpWindow.setTitle("Справка");
-            helpWindow.setScene(new Scene(this.helpView));
-
-            helpWindow.initModality(Modality.WINDOW_MODAL);
-            helpWindow.initOwner(primaryStage);
+//            this.helpScene.setRoot(this.helpView);
 
             helpWindow.show();
 
@@ -337,21 +361,15 @@ public class AppMain extends Application {
     }
 
     public void openErrorPage(String message) {
-        Stage errorWindow = new Stage();
-        errorWindow.setTitle("");
-        errorWindow.setScene(new Scene(this.errorView));
-        errorWindow.initModality(Modality.WINDOW_MODAL);
-        errorWindow.initOwner(primaryStage);
+//        errorScene.setRoot(this.errorView);
 
         var backClick = (Button) this.errorView.lookup("#closeButton");
         var label = (Label) this.errorView.lookup("#errorLabel");
 
-        if(message != null) {
+        if (message != null) {
             label.setText(message);
         }
-        backClick.setOnAction(e -> {
-            errorWindow.close();
-        });
+        backClick.setOnAction(e -> errorWindow.close());
 
         errorWindow.show();
     }
@@ -375,14 +393,10 @@ public class AppMain extends Application {
         System.out.println("gameOver");
         if (currentGameState.getScore() != 0) {
             var achievement = new Achievement(currentGameState.getScore());
-            Stage getNameWindow = new Stage();
-            getNameWindow.setTitle("Счет: " + achievement.getScore());
-            getNameWindow.setScene(new Scene(this.nameAndScoreView));
+            nameSetterWindow.setTitle("Счет: " + achievement.getScore());
+//            nameSetterScene.setRoot(this.nameAndScoreView);
 
-            getNameWindow.initModality(Modality.APPLICATION_MODAL);
-            getNameWindow.initOwner(primaryStage);
-
-            getNameWindow.show();
+            nameSetterWindow.show();
 
             var backClick = (Button) this.nameAndScoreView.lookup("#okButton");
             var textField = (TextField) this.nameAndScoreView.lookup("#nameField");
@@ -400,7 +414,7 @@ public class AppMain extends Application {
                     exception.printStackTrace();
                     this.openErrorPage(exception.getMessage());
                 }
-                getNameWindow.close();
+                nameSetterWindow.close();
                 openAchievements();
             });
         } else {
