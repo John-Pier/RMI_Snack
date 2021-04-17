@@ -16,7 +16,9 @@
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <TextArea editable="false" layoutX="22.0" layoutY="121.0" prefHeight="253.0" prefWidth="529.0" promptText="Справка тут" text="Справка тут" />
+                  <TextArea editable="false" layoutX="22.0" layoutY="121.0" prefHeight="253.0" prefWidth="529.0"
+                            promptText="Справка..."
+                            text="Приложение RMI Snake представляет собой классическую игру 'Змейка' реализованную как клиент-серверное приложение с использованием технологии RMI" />
                </children>
             </AnchorPane>
         </content>
