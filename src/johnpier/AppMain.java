@@ -347,8 +347,6 @@ public class AppMain extends Application {
             this.loadHelpView();
         }
         if (this.helpView != null && this.primaryStage != null) {
-//            this.helpScene.setRoot(this.helpView);
-
             helpWindow.show();
 
             Button backClick = (Button) this.helpView.lookup("#backToMenuButton");
@@ -361,8 +359,6 @@ public class AppMain extends Application {
     }
 
     public void openErrorPage(String message) {
-//        errorScene.setRoot(this.errorView);
-
         var backClick = (Button) this.errorView.lookup("#closeButton");
         var label = (Label) this.errorView.lookup("#errorLabel");
 
@@ -394,7 +390,6 @@ public class AppMain extends Application {
         if (currentGameState.getScore() != 0) {
             var achievement = new Achievement(currentGameState.getScore());
             nameSetterWindow.setTitle("Счет: " + achievement.getScore());
-//            nameSetterScene.setRoot(this.nameAndScoreView);
 
             nameSetterWindow.show();
 

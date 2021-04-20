@@ -13,23 +13,17 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <center>
-               <ImageView fx:id="helpButton"
-                          accessibleRole="BUTTON"
-                          fitHeight="24.0"
-                          fitWidth="24.0"
-                          focusTraversable="true"
-                          pickOnBounds="true"
-                          BorderPane.alignment="CENTER">
+               <ImageView fx:id="helpButton" accessibleRole="BUTTON" cache="true" fitHeight="24.0" fitWidth="24.0" focusTraversable="true" mouseTransparent="true" pickOnBounds="true" smooth="false" BorderPane.alignment="TOP_RIGHT">
                    <viewport>
                        <Rectangle2D height="24.0" width="24.0" />
                    </viewport>
-                   <Image url="@../../../../resources/icons/help_24dp.png" />
+                   <Image url="@../resources/icons/help_24dp.png" />
                </ImageView>
          </center>
       </BorderPane>
    </top>
    <center>
-      <Pane BorderPane.alignment="CENTER">
+      <Pane cache="true" BorderPane.alignment="CENTER">
          <children>
                <Label alignment="TOP_CENTER" layoutX="132.0" layoutY="96.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="59.0" prefWidth="377.0" text="RMI Змейка" textAlignment="CENTER" textOverrun="WORD_ELLIPSIS">
                    <font>

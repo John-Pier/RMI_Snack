@@ -13,9 +13,7 @@ public class SnakeGameManager implements GameManager {
     @Override
     public GameState startGame(GameConfig initialConfig) throws RemoteException {
         gameStarted = true;
-        GameState gameState = new GameState(initialConfig.gridWidth, initialConfig.gridHeight, initialConfig.speed);
-        this.currentState = gameState;
-
+        this.currentState = new GameState(initialConfig.gridWidth, initialConfig.gridHeight, initialConfig.speed);
         return this.currentState;
     }
 
