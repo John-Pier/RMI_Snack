@@ -24,6 +24,9 @@ public class AppMain extends Application {
     private Direction direction = Direction.UP;
     private volatile Boolean isGameExit = false;
 
+    private final int FIELD_HEIGHT = 20;
+    private final int FIELD_WIDTH = 20;
+
     public GameManager gameManager;
     public AchievementsManager achievementsManager;
     public GameState currentGameState;
@@ -191,41 +194,41 @@ public class AppMain extends Application {
         try {
             currentGameState = gameManager.nextStep(params);
             scoreLabel.setText(String.valueOf(currentGameState.getScore()));
-            System.out.println(currentGameState + ": " + currentGameState.isGameOver() + ": " + currentGameState.getScore());
+            System.out.println("isGameOver=" + currentGameState.isGameOver() + ": " + currentGameState.getSnake().get(0).getX() + "-" + currentGameState.getSnake().get(0).getY());
 
             if (currentGameState.isGameOver()) {
                 isGameExit = true;
                 return;
             }
-
             var snake = currentGameState.getSnake();
             var foodCoordinate = currentGameState.getFoodElement();
 
             graphicsContext2D.setFill(Color.web("F4FCF1"));
-            graphicsContext2D.fillRect(0, 0, currentGameState.getFieldWidth() * 20, currentGameState.getFieldHeight() * 20);
+            graphicsContext2D.fillRect(0, 0, currentGameState.getFieldWidth() * FIELD_WIDTH, currentGameState.getFieldHeight() * FIELD_HEIGHT);
 
             Color foodColor = Color.web("FE8272");
 
             graphicsContext2D.setFill(foodColor);
-            graphicsContext2D.fillOval(foodCoordinate.getX() * 20, foodCoordinate.getY() * 20, 20, 20);
+            graphicsContext2D.fillOval(foodCoordinate.getX() * FIELD_WIDTH, foodCoordinate.getY() * FIELD_HEIGHT, FIELD_WIDTH, FIELD_HEIGHT);
 
             for (int i = 0; i < snake.size(); i++) {
                 Coordinate coordinate = snake.get(i);
                 graphicsContext2D.setFill(Color.web("5B5858"));
                 if (i == 0) {
-                    graphicsContext2D.fillRoundRect((coordinate.getX() * 20), coordinate.getY() * 20, 20 - 1, 20 - 1, 10, 10);
+                    graphicsContext2D.fillRoundRect((coordinate.getX() * FIELD_WIDTH), coordinate.getY() * FIELD_HEIGHT, FIELD_WIDTH - 1, FIELD_HEIGHT - 1, 10, 10);
                     graphicsContext2D.setFill(Color.web("B57F4E"));
-                    graphicsContext2D.fillRoundRect(coordinate.getX() * 20 - 1, coordinate.getY() * 20 - 1, 20 - 2, 20 - 2, 10, 10);
+                    graphicsContext2D.fillRoundRect(coordinate.getX() * FIELD_WIDTH - 1, coordinate.getY() * FIELD_HEIGHT - 1, FIELD_WIDTH - 2, FIELD_HEIGHT - 2, 10, 10);
                 } else {
-                    graphicsContext2D.fillRoundRect((coordinate.getX() * 20), coordinate.getY() * 20, 20 - 1, 20 - 1, 5, 5);
+                    graphicsContext2D.fillRoundRect((coordinate.getX() * FIELD_WIDTH), coordinate.getY() * FIELD_HEIGHT, FIELD_WIDTH - 1, FIELD_HEIGHT - 1, 5, 5);
                     graphicsContext2D.setFill(Color.web("8C7259"));
-                    graphicsContext2D.fillRoundRect(coordinate.getX() * 20 - 1, coordinate.getY() * 20 - 1, 20 - 2, 20 - 2, 5, 5);
+                    graphicsContext2D.fillRoundRect(coordinate.getX() * FIELD_WIDTH - 1, coordinate.getY() * FIELD_HEIGHT - 1, FIELD_WIDTH - 2, FIELD_HEIGHT - 2, 5, 5);
                 }
             }
 
         } catch (RemoteException e) {
             this.openErrorPage(null);
             e.printStackTrace();
+            isGameExit = true;
             this.animationTimer.stop();
         }
     }
@@ -304,8 +307,8 @@ public class AppMain extends Application {
                 currentGameState = gameManager.startGame(new GameConfig());
                 scoreLabel.setText(String.valueOf(currentGameState.getScore()));
 
-                gameGridCanvas.setHeight(20 * currentGameState.getFieldHeight());
-                gameGridCanvas.setWidth(20 * currentGameState.getFieldWidth());
+                gameGridCanvas.setHeight(FIELD_HEIGHT * currentGameState.getFieldHeight());
+                gameGridCanvas.setWidth(FIELD_WIDTH * currentGameState.getFieldWidth());
 
                 GraphicsContext graphicsContext2D = gameGridCanvas.getGraphicsContext2D();
 
@@ -314,13 +317,12 @@ public class AppMain extends Application {
                     final long second = 1_000_000_000;
 
                     public void handle(long now) {
+                        long interval = (long) (second / (currentGameState.getSpeed() * animationSpeed));
+
                         if (lastTick == 0) {
                             lastTick = now;
                             gameTick(graphicsContext2D);
-                            return;
-                        }
-
-                        if (now - lastTick > second / (currentGameState.getSpeed() * animationSpeed)) {
+                        } else if (now - lastTick > interval) {
                             lastTick = now;
                             gameTick(graphicsContext2D);
                         }
@@ -370,13 +372,13 @@ public class AppMain extends Application {
     }
 
     public void onKeyPressed(KeyCode keyCode) {
-        if (keyCode == KeyCode.W || keyCode == KeyCode.KP_UP) {
+        if (keyCode == KeyCode.W || keyCode.getCode() == KeyCode.UP.getCode()) {
             direction = Direction.UP;
-        } else if (keyCode == KeyCode.A || keyCode == KeyCode.LEFT) {
+        } else if (keyCode == KeyCode.A || keyCode.getCode() == KeyCode.LEFT.getCode()) {
             direction = Direction.LEFT;
-        } else if (keyCode == KeyCode.S || keyCode == KeyCode.DOWN) {
+        } else if (keyCode == KeyCode.S || keyCode.getCode() == KeyCode.DOWN.getCode()) {
             direction = Direction.DOWN;
-        } else if (keyCode == KeyCode.D || keyCode == KeyCode.RIGHT) {
+        } else if (keyCode == KeyCode.D || keyCode.getCode() == KeyCode.RIGHT.getCode()) {
             direction = Direction.RIGHT;
         }
 

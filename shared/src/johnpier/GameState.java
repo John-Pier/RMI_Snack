@@ -21,7 +21,7 @@ public class GameState implements Serializable {
         this.foodElement = new Coordinate(firstX - 2, firstY - 1);
         this.snake = new ArrayList<>();
         this.snake.add(new Coordinate(firstX, firstY));
-        this.snake.add(new Coordinate(firstX, firstY-1));
+        this.snake.add(new Coordinate(firstX-1, firstY));
         this.speed = speed;
         this.fieldWidth = fieldWidth;
         this.fieldHeight = fieldHeight;

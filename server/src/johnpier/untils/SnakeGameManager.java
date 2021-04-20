@@ -25,8 +25,8 @@ public class SnakeGameManager implements GameManager {
         }
 
         var snakeHeadCoordinate = currentState.getSnake().get(0);
-        int y = snakeHeadCoordinate.getY();
-        int x = snakeHeadCoordinate.getX();
+        int y, oldY = y = snakeHeadCoordinate.getY();
+        int x, oldX = x = snakeHeadCoordinate.getX();
 
         switch (params.nextDirection) {
             case UP -> {
@@ -38,7 +38,7 @@ public class SnakeGameManager implements GameManager {
             }
             case DOWN -> {
                 y++;
-                if (y > currentState.getFieldHeight()) {
+                if (y >= currentState.getFieldHeight()) {
                     currentState.setGameOver(true);
                 }
                 snakeHeadCoordinate.setY(y);
@@ -52,7 +52,7 @@ public class SnakeGameManager implements GameManager {
             }
             case RIGHT -> {
                 x++;
-                if (x > currentState.getFieldWidth()) {
+                if (x >= currentState.getFieldWidth()) {
                     currentState.setGameOver(true);
                 }
                 snakeHeadCoordinate.setX(x);
@@ -62,27 +62,21 @@ public class SnakeGameManager implements GameManager {
         if (currentState.getFoodElement().getX() == snakeHeadCoordinate.getX() &&
                 currentState.getFoodElement().getY() == snakeHeadCoordinate.getY()) {
             var snake = currentState.getSnake();
-            int blockX = snake.get(1).getX();
-            int blockY = snake.get(1).getY();
-
-            ArrayList<Coordinate> newSnake = new ArrayList<>();
-            newSnake.add(snakeHeadCoordinate);
-            newSnake.add(new Coordinate(blockX, blockY));
-            for (int i = 1; i < snake.size(); i++) {
-                newSnake.add(snake.get(i));
-            }
-//            newSnake.add(1,new Coordinate(blockX, blockY));
-            currentState.setSnake(newSnake);
+            snake.add(1,new Coordinate(oldX, oldY));
             currentState.setFoodElement(createFoodElement(currentState.getSnake(), currentState.getFieldWidth(), currentState.getFieldHeight()));
             currentState.setScore(currentState.getScore() + 1);
         } else {
-            for (int i = currentState.getSnake().size() - 1; i >= 1; i--) {
+            for (int i = currentState.getSnake().size() - 1; i > 1; i--) {
                 currentState.getSnake().get(i).setX(currentState.getSnake().get(i - 1).getX());
                 currentState.getSnake().get(i).setY(currentState.getSnake().get(i - 1).getY());
             }
+            currentState.getSnake().get(1).setX(oldX);
+            currentState.getSnake().get(1).setY(oldY);
         }
 
-        currentState.setGameOver(checkHeadCrossing(currentState.getSnake()));
+        if(checkHeadCrossing(currentState.getSnake())) {
+            currentState.setGameOver(true);
+        }
 
         return currentState;
     }
