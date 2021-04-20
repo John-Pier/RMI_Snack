@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.*;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -22,7 +21,7 @@ import java.rmi.*;
 
 public class AppMain extends Application {
     private final double animationSpeed = 1.9;
-    private Direction direction = Direction.LEFT;
+    private Direction direction = Direction.UP;
     private volatile Boolean isGameExit = false;
 
     public GameManager gameManager;
@@ -54,7 +53,7 @@ public class AppMain extends Application {
     public Button exitButton;
     public Button gameStartButton;
     public Button achievementsButton;
-    public ImageView helpButton;
+    public Button helpButton;
     public Label scoreLabel;
 
     @Override
@@ -102,7 +101,7 @@ public class AppMain extends Application {
         this.exitButton = (Button) scene.lookup("#exitButton");
         this.achievementsButton = (Button) scene.lookup("#achievementsButton");
         this.gameStartButton = (Button) scene.lookup("#gameStartButton");
-        this.helpButton = (ImageView) scene.lookup("#helpButton");
+        this.helpButton = (Button) scene.lookup("#helpButton");
 
         this.exitButton.setOnAction(e -> this.onExitClick());
         this.achievementsButton.setOnAction(e -> this.openAchievements());
@@ -200,7 +199,7 @@ public class AppMain extends Application {
             }
 
             var snake = currentGameState.getSnake();
-            var foodCoordinate = currentGameState.getFood();
+            var foodCoordinate = currentGameState.getFoodElement();
 
             graphicsContext2D.setFill(Color.web("F4FCF1"));
             graphicsContext2D.fillRect(0, 0, currentGameState.getFieldWidth() * 20, currentGameState.getFieldHeight() * 20);

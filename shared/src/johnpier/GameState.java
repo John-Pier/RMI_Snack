@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class GameState implements Serializable {
     private ArrayList<Coordinate> snake;
-    private Coordinate food;
+    private Coordinate foodElement;
     private Direction direction;
     private int fieldWidth;
     private int fieldHeight;
@@ -14,14 +14,14 @@ public class GameState implements Serializable {
     private int speed;
 
     public GameState(int fieldWidth, int fieldHeight, int speed) {
-        this.direction = Direction.LEFT;
+        this.direction = Direction.UP;
         var firstX = fieldWidth / 2;
         var firstY = fieldHeight / 2;
 
-        this.food = new Coordinate(firstX - 2, firstY - 1);
+        this.foodElement = new Coordinate(firstX - 2, firstY - 1);
         this.snake = new ArrayList<>();
         this.snake.add(new Coordinate(firstX, firstY));
-        this.snake.add(new Coordinate(firstY - 1, firstY));
+        this.snake.add(new Coordinate(firstX, firstY-1));
         this.speed = speed;
         this.fieldWidth = fieldWidth;
         this.fieldHeight = fieldHeight;
@@ -35,12 +35,12 @@ public class GameState implements Serializable {
         this.snake = snake;
     }
 
-    public Coordinate getFood() {
-        return food;
+    public Coordinate getFoodElement() {
+        return foodElement;
     }
 
-    public void setFood(Coordinate food) {
-        this.food = food;
+    public void setFoodElement(Coordinate foodElement) {
+        this.foodElement = foodElement;
     }
 
     public Direction getDirection() {

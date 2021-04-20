@@ -2,24 +2,18 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.AppMain">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.AppMain">
    <top>
       <BorderPane BorderPane.alignment="TOP_RIGHT">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
-         <center>
-               <ImageView fx:id="helpButton" accessibleRole="BUTTON" cache="true" fitHeight="24.0" fitWidth="24.0" focusTraversable="true" mouseTransparent="true" pickOnBounds="true" smooth="false" BorderPane.alignment="TOP_RIGHT">
-                   <viewport>
-                       <Rectangle2D height="24.0" width="24.0" />
-                   </viewport>
-                   <Image url="@../resources/icons/help_24dp.png" />
-               </ImageView>
-         </center>
+         <top>
+            <Button fx:id="helpButton" defaultButton="true" mnemonicParsing="false" text="Справка" textAlignment="CENTER" textFill="#1e5590" BorderPane.alignment="CENTER_RIGHT" />
+         </top>
       </BorderPane>
    </top>
    <center>
@@ -30,9 +24,9 @@
                        <Font name="System Bold" size="40.0" />
                    </font>
                </Label>
-               <Button fx:id="exitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" layoutX="129.0" layoutY="347.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" prefHeight="30.0" prefWidth="382.0" style="-fx-background-color: #EDA3A3" text="Выход" textAlignment="CENTER" />
-               <Button fx:id="achievementsButton" alignment="CENTER" contentDisplay="CENTER" layoutX="129.0" layoutY="303.0" minHeight="30.0" prefHeight="30.0" prefWidth="381.0" style="-fx-background-color: #FBE79F" text="Достижения" textAlignment="CENTER" />
-               <Button fx:id="gameStartButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="130.0" layoutY="261.0" minHeight="30.0" prefHeight="30.0" prefWidth="379.0" style="-fx-background-color: #ABFFD2" text="Начать игру" textAlignment="CENTER" />
+               <Button fx:id="exitButton" alignment="CENTER" cancelButton="true" contentDisplay="CENTER" layoutX="129.0" layoutY="347.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="30.0" prefHeight="30.0" prefWidth="382.0" style="-fx-background-color: #EDA3A3" text="Выход" textAlignment="CENTER" textFill="#46091d" />
+               <Button fx:id="achievementsButton" alignment="CENTER" contentDisplay="CENTER" layoutX="129.0" layoutY="303.0" minHeight="30.0" prefHeight="30.0" prefWidth="381.0" style="-fx-background-color: #FBE79F" text="Достижения" textAlignment="CENTER" textFill="#51400d" />
+               <Button fx:id="gameStartButton" alignment="CENTER" contentDisplay="CENTER" defaultButton="true" layoutX="130.0" layoutY="261.0" minHeight="30.0" prefHeight="30.0" prefWidth="379.0" style="-fx-background-color: #ABFFD2" text="Начать игру" textAlignment="CENTER" textFill="#103209" />
          </children></Pane>
    </center>
 </BorderPane>

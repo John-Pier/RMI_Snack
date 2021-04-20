@@ -23,101 +23,91 @@ public class SnakeGameManager implements GameManager {
             currentState.setGameOver(true);
             return currentState;
         }
-        for (int i = currentState.getSnake().size() - 1; i >= 1; i--) {
-            currentState.getSnake().get(i).setX(currentState.getSnake().get(i - 1).getX());
-            currentState.getSnake().get(i).setY(currentState.getSnake().get(i - 1).getY());
-        }
-        int y, x;
+
         var snakeHeadCoordinate = currentState.getSnake().get(0);
-        y = snakeHeadCoordinate.getY();
-        x = snakeHeadCoordinate.getX();
+        int y = snakeHeadCoordinate.getY();
+        int x = snakeHeadCoordinate.getX();
 
         switch (params.nextDirection) {
             case UP -> {
-                if (!(currentState.getSnake().get(1).getX() == x && y == currentState.getSnake().get(1).getY() - 1)) {
-                    y--;
-                    snakeHeadCoordinate.setY(y);
-                    if (snakeHeadCoordinate.getY() < 0) {
-                        currentState.setGameOver(true);
-                    }
+                y--;
+                if (y < 0) {
+                    currentState.setGameOver(true);
                 }
+                snakeHeadCoordinate.setY(y);
             }
             case DOWN -> {
-                if (!(currentState.getSnake().get(1).getX() == x && y == currentState.getSnake().get(1).getY() + 1)) {
-                    y++;
-                    snakeHeadCoordinate.setY(y);
-                    if (snakeHeadCoordinate.getY() > currentState.getFieldHeight()) {
-                        currentState.setGameOver(true);
-                    }
+                y++;
+                if (y > currentState.getFieldHeight()) {
+                    currentState.setGameOver(true);
                 }
+                snakeHeadCoordinate.setY(y);
             }
             case LEFT -> {
-                if (!(currentState.getSnake().get(1).getX() - 1 == x && y == currentState.getSnake().get(1).getY())) {
-                    x--;
-                    snakeHeadCoordinate.setX(x);
-                    if (snakeHeadCoordinate.getX() < 0) {
-                        currentState.setGameOver(true);
-                    }
+                x--;
+                if (x < 0) {
+                    currentState.setGameOver(true);
                 }
+                snakeHeadCoordinate.setX(x);
             }
             case RIGHT -> {
-                if (!(currentState.getSnake().get(1).getX() + 1 == x && y == currentState.getSnake().get(1).getY())) {
-                    x++;
-                    snakeHeadCoordinate.setX(x);
-                    if (snakeHeadCoordinate.getX() > currentState.getFieldWidth()) {
-                        currentState.setGameOver(true);
-                    }
+                x++;
+                if (x > currentState.getFieldWidth()) {
+                    currentState.setGameOver(true);
                 }
+                snakeHeadCoordinate.setX(x);
             }
         }
 
-        if (currentState.getFood().getX() == snakeHeadCoordinate.getX() &&
-                currentState.getFood().getY() == snakeHeadCoordinate.getY()) {
+        if (currentState.getFoodElement().getX() == snakeHeadCoordinate.getX() &&
+                currentState.getFoodElement().getY() == snakeHeadCoordinate.getY()) {
+            var snake = currentState.getSnake();
+            int blockX = snake.get(1).getX();
+            int blockY = snake.get(1).getY();
 
-            ArrayList<Coordinate> newSnake =  currentState.getSnake();
-            int blockX = newSnake.get(newSnake.size() -1).getX();
-            int blockY = newSnake.get(newSnake.size() -1).getY();
-
-            switch (currentState.getDirection()) {
-                case UP -> blockY--;
-                case DOWN -> blockY++;
-                case LEFT -> blockX--;
-                case RIGHT -> blockX++;
-            }
+            ArrayList<Coordinate> newSnake = new ArrayList<>();
+            newSnake.add(snakeHeadCoordinate);
             newSnake.add(new Coordinate(blockX, blockY));
+            for (int i = 1; i < snake.size(); i++) {
+                newSnake.add(snake.get(i));
+            }
+//            newSnake.add(1,new Coordinate(blockX, blockY));
             currentState.setSnake(newSnake);
-            currentState.setFood(getFood(currentState.getSnake(), currentState.getFieldWidth(), currentState.getFieldHeight()));
+            currentState.setFoodElement(createFoodElement(currentState.getSnake(), currentState.getFieldWidth(), currentState.getFieldHeight()));
             currentState.setScore(currentState.getScore() + 1);
-        }
-
-        for (int i = 1; i < currentState.getSnake().size(); i++) {
-            if (snakeHeadCoordinate.getX() == currentState.getSnake().get(i).getX()
-                    && snakeHeadCoordinate.getY() == currentState.getSnake().get(i).getY()) {
-                currentState.setGameOver(true);
+        } else {
+            for (int i = currentState.getSnake().size() - 1; i >= 1; i--) {
+                currentState.getSnake().get(i).setX(currentState.getSnake().get(i - 1).getX());
+                currentState.getSnake().get(i).setY(currentState.getSnake().get(i - 1).getY());
             }
         }
+
+        currentState.setGameOver(checkHeadCrossing(currentState.getSnake()));
 
         return currentState;
     }
 
-    private Coordinate getFood(ArrayList<Coordinate> snake, int width, int height) {
-        Coordinate food;
-        int foodX, foodY;
+    private boolean checkHeadCrossing(ArrayList<Coordinate> snake) {
+        var snakeHeadCoordinate = snake.get(0);
+        for (int i = 1; i < snake.size(); i++) {
+            if (snakeHeadCoordinate.getX() == snake.get(i).getX() &&
+                    snakeHeadCoordinate.getY() == snake.get(i).getY()) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-        start:
+    private Coordinate createFoodElement(ArrayList<Coordinate> snake, int width, int height) {
         while (true) {
-            foodX = random.nextInt(width);
-            foodY = random.nextInt(height);
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
 
             for (Coordinate c : snake) {
-                if (c.getX() == foodX && c.getY() == foodY) {
-                    continue start;
+                if (c.getX() != x && c.getY() != y) {
+                    return new Coordinate(x, y);
                 }
             }
-            break;
-
         }
-        food = new Coordinate(foodX, foodY);
-        return food;
     }
 }

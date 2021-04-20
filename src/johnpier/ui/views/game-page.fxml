@@ -10,17 +10,76 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<BorderPane prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.AppMain">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="johnpier.AppMain">
     <bottom>
-      <Pane BorderPane.alignment="CENTER">
+      <Pane prefHeight="103.0" prefWidth="600.0" BorderPane.alignment="TOP_CENTER">
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <children>
-              <Button fx:id="finishGameButton" defaultButton="true" layoutX="495.0" mnemonicParsing="false" text="Завершить игру" textAlignment="CENTER" />
-            <BorderPane prefHeight="26.0" prefWidth="346.0">
+              <Button fx:id="finishGameButton" defaultButton="true" layoutX="495.0" layoutY="77.0" mnemonicParsing="false" text="Завершить игру" textAlignment="CENTER" />
+            <BorderPane layoutX="10.0" prefHeight="105.0" prefWidth="169.0">
+               <left>
+                  <VBox prefHeight="105.0" prefWidth="24.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Circle fill="#e8836c" radius="6.0" stroke="BLACK" strokeType="INSIDE">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Circle>
+                        <Text fill="#865d22" strokeType="OUTSIDE" strokeWidth="0.0" text="W">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#865d22" layoutX="10.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="S">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#865d22" layoutX="10.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="A">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#865d22" layoutX="10.0" layoutY="73.0" strokeType="OUTSIDE" strokeWidth="0.0" text="D">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
+               </left>
                <center>
-                  <Circle fill="#e8836c" radius="9.0" stroke="BLACK" strokeType="INSIDE" BorderPane.alignment="CENTER" />
+                  <VBox prefHeight="103.0" prefWidth="156.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Text fill="#865d22" strokeType="OUTSIDE" strokeWidth="0.0" text="Фрукт">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#865d22" strokeType="OUTSIDE" strokeWidth="0.0" text="Вверх">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#865d22" strokeType="OUTSIDE" strokeWidth="0.0" text="Вниз">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#865d22" strokeType="OUTSIDE" strokeWidth="0.0" text="Влево">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                        <Text fill="#865d22" strokeType="OUTSIDE" strokeWidth="0.0" text="Вправо">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Text>
+                     </children>
+                  </VBox>
                </center>
             </BorderPane>
          </children>
@@ -29,7 +88,7 @@
     <top>
         <Label fx:id="scoreLabel" contentDisplay="CENTER" text="0" textFill="#7c4c15" BorderPane.alignment="CENTER">
             <BorderPane.margin>
-                <Insets bottom="20.0" top="20.0" />
+                <Insets bottom="2.0" top="2.0" />
             </BorderPane.margin>
             <font>
                 <Font size="30.0" />
@@ -37,7 +96,7 @@
         </Label>
     </top>
     <center>
-        <Canvas fx:id="gameCanvas" height="300.0" layoutX="99.0" layoutY="69.0" style="-fx-border-radius: 2px; -fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: #D4D4D4;" width="400.0" BorderPane.alignment="CENTER">
+        <Canvas fx:id="gameCanvas" height="300.0" layoutX="99.0" layoutY="69.0" style="-fx-border-radius: 2px; -fx-border-width: 1px; -fx-border-style: solid; -fx-border-color: #D4D4D4;" width="400.0" BorderPane.alignment="TOP_CENTER">
             <cursor>
                 <Cursor fx:constant="NONE" />
             </cursor>
@@ -53,7 +112,4 @@
          </BorderPane.margin>
         </Canvas>
     </center>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
 </BorderPane>
